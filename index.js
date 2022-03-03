@@ -4,11 +4,14 @@ const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+require("dotenv").config();
+
+console.log(process.env.PORT);
 
 let typingUsers = [];
 
 // app.use(express.static(__dirname + "/public"));
-app.use(express.static("public"));
+app.use("/static", express.static("public"));
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
@@ -47,6 +50,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log("listening on *:3000");
+server.listen(process.env.PORT, () => {
+  console.log(`listening on *:${process.env.PORT}`);
 });
