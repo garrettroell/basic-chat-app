@@ -8,75 +8,7 @@
 </head>
 
 <body>
-  <ul id="messages"></ul>
-  <p id="typing-message"></p>
-  <form id="form" action="">
-    <input id="input" autocomplete="off" oninput="onchange" />
-    <button>Send</button>
-  </form>
-
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    var socket = io();
-    var name;
-
-    var messages = document.getElementById('messages');
-    var form = document.getElementById('form');
-    var input = document.getElementById('input');
-    var typingMessage = document.getElementById('typing-message');
-
-    // get the user's name
-    function show_prompt() {
-      name = prompt('Please enter your name', 'unnamed user');
-      if (name != null && name != "") {
-        socket.emit('new user', name);
-      }
-    }
-    show_prompt()
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (input.value) {
-        socket.emit('chat message', `${name}: ${input.value}`);
-        socket.emit('user not typing', name);
-        input.value = '';
-      }
-    });
-
-    socket.on('chat message', function (msg) {
-      var item = document.createElement('li');
-      item.textContent = msg;
-      messages.appendChild(item);
-      window.scrollTo(0, document.body.scrollHeight);
-    });
-
-    input.addEventListener('input', (e) => {
-      if (e.target.value !== '') {
-        socket.emit('user typing', name);
-      } else {
-        socket.emit('user not typing', name);
-      }
-    });
-
-    socket.on('typing users', function (typingUsers) {
-      // remove the current user from the typing user list
-      typingUsers = typingUsers.filter((_name) => {
-        return _name !== name;
-      });
-
-
-      if (typingUsers.length === 0) {
-        typingMessage.style.display = 'none'
-        typingMessage.textContent = ''
-      } else if (typingUsers.length === 1) {
-        typingMessage.style.display = 'block'
-        typingMessage.textContent = `${typingUsers[0]} is typing...`
-      } else if (typingUsers.length > 1) {
-        typingMessage.style.display = 'block'
-        typingMessage.textContent = `${typingUsers.length} users are typing...`
-      }
-    });
-  </script>
+  <p>This is the index.html page</p>
 </body>
 
 </html>
