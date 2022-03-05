@@ -17,6 +17,10 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index2.html");
 });
 
+app.get("/typing", (req, res) => {
+  res.json({ typingUsers: typingUsers });
+});
+
 io.on("connection", (socket) => {
   console.log("a user connected");
   io.emit("typing users", typingUsers);
@@ -36,6 +40,10 @@ io.on("connection", (socket) => {
       typingUsers = [...typingUsers, name];
     }
     io.emit("typing users", typingUsers);
+
+    app.get("/typing", (req, res) => {
+      res.json({ typingUsers: typingUsers });
+    });
   });
 
   socket.on("user not typing", (name) => {
